@@ -30,7 +30,8 @@
  */
 
   module.exports = {
-    events: getEvents
+    events: getEvents,
+    todays: gettodays
   };
 
 
@@ -43,6 +44,29 @@
   String.prototype.correctForm = function () {
     return this.split("/").reverse().join("-");
   };
+
+  function gettodays(req, res) {
+    // variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
+    var date = req.swagger.params.date.value || '2021-05-15';
+  
+    // this sends back a JSON response which is a single string
+    res.json(
+      [
+        {
+          "id": "" + faker.random.number(),
+          "date": date,
+          "title": "" + chance.name(),
+          "century": "" + chance.integer({ min: 13, max: 21 }) + " century",
+          "end_date": "" + chance.date({string: true}),
+          "price":" " + chance.dollar({min : 5 , max: 100}),
+          "location": "" + faker.address.streetAddress(),
+          "discription":"" + chance.paragraph({ sentences: 5 }) ,
+          "number": "" + chance.integer({ min: 10, max: 100 })
+          }
+         ] );
+  }
+
+
 function getEvents(req, res) {
   // variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
   var date = req.swagger.params.date.value || '2021-05-15';

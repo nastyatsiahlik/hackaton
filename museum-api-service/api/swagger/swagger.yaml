@@ -42,6 +42,30 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /today:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: museum-controller
+    get:
+      description: Returns today's exhibition
+      # used as the method name of the controller
+      operationId: todays
+      parameters:
+        - name: date
+          in: query
+          description: Filtering date
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/TodaysResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"         
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -71,7 +95,34 @@ definitions:
       date:
         type: string    
 
-
+  TodaysResponse:
+      type: array
+      items:
+        $ref:  "#/definitions/Today"
+        
+  Today:
+    required:
+      - id
+    properties:
+      id:
+        type: string
+      date:
+        type: string
+      title:
+        type: string
+      century:
+        type: string
+      end_date:
+        type: string
+      price:
+        type: string
+      location:
+        type: string
+      discription:
+        type: string
+      number:
+        type: string
+        
   ErrorResponse:
     required:
       - message
